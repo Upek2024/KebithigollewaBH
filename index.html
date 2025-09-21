@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" href="favicon/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="icon" href="favicon/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="favicon/apple-icon-180x180.png">
+
+  <title>BH Kebithigollewa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* your styles */
+  </style>
+</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BH Kebithigollewa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      overflow-x: hidden;
+    }
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(0,0,0,0.6);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+    header h1 {
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: #00eaff;
+    }
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #00eaff;
+    }
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+      animation: fadeIn 2s ease;
+    }
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #00eaff;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+    .hero button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      background: #00eaff;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .hero button:hover {
+      transform: scale(1.05);
+      background: #00bcd4;
+    }
+    section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    section h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #00eaff;
+    }
+    section p {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+    }
+    .card h4 {
+      color: #00eaff;
+      margin-bottom: 10px;
+    }
+    footer {
+      background: rgba(0,0,0,0.8);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 40px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kebithigollewa Base Hospital</h1>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h2>Healthcare of the Future</h2>
+    <p>Experience cutting-edge medical technology and compassionate care in a futuristic environment designed for your well-being.</p>
+    <button onclick="window.location.href='appointment.html'">Book an Appointment</button>
+  </div>
+
+  <section id="services">
+    <h3>Our Services</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>24/7 Emergency</h4>
+        <p>Round-the-clock emergency support with advanced facilities and expert doctors.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h3>About Us</h3>
+    <p>Kebithigollewa Base Hospital integrates futuristic technology with human-centered care, redefining how healthcare is delivered. Our mission is to provide world-class facilities with a touch of innovation and empathy.</p>
+  </section>
+
+  <section id="contact">
+    <h3>Contact Us</h3>
+    <p>Email: kebithigollewabasehospital@gmail.com | Phone: +94 77 264 8200</p>
+  </section>
+
+  <footer>
+    © 2025 Kebithigollewa Base Hospital. All Rights Reserved.
+  </footer>
+</body>
+</html>
