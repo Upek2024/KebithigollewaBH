@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booked Appointments</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #0f0f1c, #1b1b2f);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      min-height: 100vh;
+      padding: 20px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      overflow-x: auto;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #00e0ff;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.05);
+    }
+    thead {
+      background: rgba(0, 224, 255, 0.2);
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+    th {
+      color: #00e0ff;
+      font-weight: 600;
+      border-bottom: 2px solid rgba(255,255,255,0.2);
+    }
+    tr {
+      transition: background 0.3s;
+    }
+    tr:hover {
+      background: rgba(0,224,255,0.1);
+    }
+    td {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .loading, .error, .empty {
+      text-align: center;
+      margin-top: 20px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Booked Appointments</h1>
+    <table id="appointmentsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Message</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="8" class="loading">Loading appointments...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyyU_7M3V0xEgfPnBLy4vfEsyBlbulGS2u_YYYV8WGOLWkaeFysKC_bbM6U9Pn0m4101g/exec"; 
+
+    function formatDate(dateString) {
+      if (!dateString) return "";
+      const date = new Date(dateString);
+      if (isNaN(date)) return dateString;
+      return date.toLocaleDateString() + " " + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    async function loadAppointments() {
+      const tableBody = document.querySelector("#appointmentsTable tbody");
+      try {
+        const response = await fetch(SCRIPT_URL);
+        if (!response.ok) throw new Error("HTTP " + response.status);
+
+        const data = await response.json();
+        tableBody.innerHTML = "";
+
+        if (data.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="8" class="empty">No appointments found.</td></tr>`;
+          return;
+        }
+
+        data.forEach(app => {
+          const row = `
+            <tr>
+              <td>${app.Name || ""}</td>
+              <td>${app.Phone || ""}</td>
+              <td>${app.Email || ""}</td>
+              <td>${app.Department || ""}</td>
+              <td>${formatDate(app.Date)}</td>
+              <td>${formatDate(app.Time)}</td>
+              <td>${app.Message || ""}</td>
+              <td>${formatDate(app.Timestamp)}</td>
+            </tr>`;
+          tableBody.innerHTML += row;
+        });
+
+      } catch (err) {
+        tableBody.innerHTML = `<tr><td colspan="8" class="error">Error loading data: ${err.message}</td></tr>`;
+      }
+    }
+
+    loadAppointments();
+  </script>
+</body>
+</html>

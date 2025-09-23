@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment - BH Kebithigollewa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #0a1929, #2c1838);
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      backdrop-filter: blur(15px);
+      width: 100%;
+      max-width: 450px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #00e0ff;
+      text-shadow: 0 0 10px #00e0ff;
+      font-size: 1.8rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0;
+      color: #fff;
+      opacity: 0.9;
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      outline: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 14px;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      background: rgba(0, 224, 255, 0.2);
+      box-shadow: 0 0 10px #00e0ff;
+      border-color: #00e0ff;
+    }
+
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #00e0ff;
+      color: #0f0f1c;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #00b8d4;
+      transform: translateY(-3px);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .error {
+      color: #ff6b6b;
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: rgba(0, 255, 135, 0.1);
+      border-radius: 10px;
+      margin-top: 20px;
+      border: 1px solid rgba(0, 255, 135, 0.3);
+    }
+    
+    .success-message i {
+      font-size: 3rem;
+      color: #00ff87;
+      margin-bottom: 15px;
+    }
+
+    .error-message {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 107, 107, 0.1);
+      border-radius: 10px;
+      margin-top: 20px;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+    
+    .error-message i {
+      font-size: 3rem;
+      color: #ff6b6b;
+      margin-bottom: 15px;
+    }
+
+    .debug-panel {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      font-size: 12px;
+      display: none;
+    }
+
+    .debug-toggle {
+      color: #00e0ff;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 12px;
+    }
+
+    .debug-output {
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      max-height: 150px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+
+    .instructions {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      font-size: 12px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-calendar-check"></i> Book Appointment</h1>
+    <form id="appointmentForm">
+      <!-- Full Name -->
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        <div class="error" id="nameError">Please enter your full name</div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+        <div class="error" id="phoneError">Please enter a valid phone number</div>
+      </div>
+
+      <!-- Email (optional) -->
+      <div class="form-group">
+        <label for="email">Email (optional)</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email">
+        <div class="error" id="emailError">Please enter a valid email address</div>
+      </div>
+
+      <!-- Department (optional) -->
+      <div class="form-group">
+        <label for="department">Department *</label>
+        <select id="department" name="department" required>
+          <option value="">Select Department</option>
+          <option value="cardiology">Cardiology</option>
+          <option value="neurology">Neurology</option>
+          <option value="pediatrics">Pediatrics</option>
+          <option value="orthopedics">Orthopedics</option>
+          <option value="general">General Medicine</option>
+          <option value="emergency">Emergency</option>
+        </select>
+        <div class="error" id="departmentError">Please select a department</div>
+      </div>
+
+      <!-- Date -->
+      <div class="form-group">
+        <label for="date">Preferred Date *</label>
+        <input type="date" id="date" name="date" required>
+        <div class="error" id="dateError">Please select a valid date</div>
+      </div>
+
+      <!-- Time -->
+      <div class="form-group">
+        <label for="time">Preferred Time *</label>
+        <input type="time" id="time" name="time" required>
+        <div class="error" id="timeError">Please select a time</div>
+      </div>
+
+      <!-- Message -->
+      <div class="form-group">
+        <label for="message">Additional Information</label>
+        <textarea id="message" name="message" placeholder="Any notes or concerns"></textarea>
+      </div>
+
+      <button type="submit" id="submitBtn">
+        <i class="fas fa-paper-plane"></i> Submit Appointment
+      </button>
+    </form>
+    
+    <div class="success-message" id="successMessage">
+      <i class="fas fa-check-circle"></i>
+      <h2>Appointment Request Submitted!</h2>
+      <p>Thank you for booking with us. We will contact you shortly to confirm your appointment.</p>
+      <button onclick="window.location.href='index.html'">Return to Home</button>
+      <button onclick="resetForm()">Submit Another Appointment</button>
+    </div>
+
+    <div class="error-message" id="errorMessage">
+      <i class="fas fa-exclamation-circle"></i>
+      <h2>Connection Error</h2>
+      <p>We're experiencing technical difficulties. Please try again later or contact us directly.</p>
+      <button onclick="hideError()">Try Again</button>
+      <button onclick="window.location.href='index.html'">Return to Home</button>
+    </div>
+	
+  <script>
+    // Your Google Apps Script URL - Replace with your actual URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyyU_7M3V0xEgfPnBLy4vfEsyBlbulGS2u_YYYV8WGOLWkaeFysKC_bbM6U9Pn0m4101g/exec';
+    let debugMode = false;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set minimum date to today
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').setAttribute('min', today);
+      
+      // Check if we should show debug panel from URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('debug') === '1') {
+        toggleDebug();
+      }
+      
+      // Form validation and submission
+      const form = document.getElementById('appointmentForm');
+      const successMessage = document.getElementById('successMessage');
+      const errorMessage = document.getElementById('errorMessage');
+      const submitBtn = document.getElementById('submitBtn');
+      
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (validateForm()) {
+          // Show loading state
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+          submitBtn.disabled = true;
+          
+          // Prepare form data
+          const formData = new FormData(form);
+          const data = Object.fromEntries(formData.entries());
+          
+          logDebug('Submitting data: ' + JSON.stringify(data));
+          
+          // Submit using Google Apps Script
+          submitToGoogleAppsScript(data);
+        }
+      });
+    });
+    
+    function submitToGoogleAppsScript(data) {
+      // Create a form dynamically to submit to Google Apps Script
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = scriptURL;
+      form.style.display = 'none';
+      
+      // Add all data as hidden inputs
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = data[key];
+          form.appendChild(input);
+        }
+      }
+      
+      // Add a timestamp to avoid caching issues
+      const timestampInput = document.createElement('input');
+      timestampInput.type = 'hidden';
+      timestampInput.name = 'timestamp';
+      timestampInput.value = new Date().getTime();
+      form.appendChild(timestampInput);
+      
+      document.body.appendChild(form);
+      
+      // Create iframe to handle response
+      const iframe = document.createElement('iframe');
+      iframe.name = 'google-script-response';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      
+      form.target = 'google-script-response';
+      
+      // Handle the response from the iframe
+      iframe.onload = function() {
+        try {
+          // Try to get the response from the iframe
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          const responseText = iframeDoc.body.textContent || iframeDoc.body.innerText;
+          
+          logDebug('Response from server: ' + responseText);
+          
+          // Try to parse the response as JSON
+          let response;
+          try {
+            response = JSON.parse(responseText);
+          } catch (e) {
+            // If it's not JSON, assume it's a success page from Google
+            response = { status: "success", message: "Appointment submitted successfully" };
+          }
+          
+          if (response.status === "success") {
+            // Show success message
+            document.getElementById('appointmentForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+          } else {
+            showError('Error: ' + response.message);
+          }
+        } catch (error) {
+          logDebug('Error reading response: ' + error.message);
+          // If we can't read the response, assume it was successful
+          // This handles cases where Google redirects or shows a confirmation page
+          document.getElementById('appointmentForm').style.display = 'none';
+          document.getElementById('successMessage').style.display = 'block';
+        }
+        
+        // Clean up
+        document.body.removeChild(form);
+        document.body.removeChild(iframe);
+        
+        // Reset button state
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Appointment';
+        submitBtn.disabled = false;
+      };
+      
+      // Handle iframe errors
+      iframe.onerror = function() {
+        logDebug('Iframe loading error');
+        showError('Failed to connect to server. Please check your internet connection.');
+        
+        // Clean up
+        document.body.removeChild(form);
+        document.body.removeChild(iframe);
+        
+        // Reset button state
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Appointment';
+        submitBtn.disabled = false;
+      };
+      
+      // Submit the form
+      form.submit();
+    }
+    
+    function validateForm() {
+      let isValid = true;
+      
+      // Validate name
+      const name = document.getElementById('name');
+      const nameError = document.getElementById('nameError');
+      if (!name.value.trim()) {
+        nameError.style.display = 'block';
+        isValid = false;
+      } else {
+        nameError.style.display = 'none';
+      }
+      
+      // Validate phone
+      const phone = document.getElementById('phone');
+      const phoneError = document.getElementById('phoneError');
+      const phoneRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+      if (!phone.value.trim() || !phoneRegex.test(phone.value)) {
+        phoneError.style.display = 'block';
+        isValid = false;
+      } else {
+        phoneError.style.display = 'none';
+      }
+      
+      // Validate email if provided
+      const email = document.getElementById('email');
+      const emailError = document.getElementById('emailError');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (email.value && !emailRegex.test(email.value)) {
+        emailError.style.display = 'block';
+        isValid = false;
+      } else {
+        emailError.style.display = 'none';
+      }
+      
+      // Validate department
+      const department = document.getElementById('department');
+      const departmentError = document.getElementById('departmentError');
+      if (!department.value) {
+        departmentError.style.display = 'block';
+        isValid = false;
+      } else {
+        departmentError.style.display = 'none';
+      }
+      
+      // Validate date
+      const date = document.getElementById('date');
+      const dateError = document.getElementById('dateError');
+      if (!date.value) {
+        dateError.style.display = 'block';
+        isValid = false;
+      } else {
+        dateError.style.display = 'none';
+      }
+      
+      // Validate time
+      const time = document.getElementById('time');
+      const timeError = document.getElementById('timeError');
+      if (!time.value) {
+        timeError.style.display = 'block';
+        isValid = false;
+      } else {
+        timeError.style.display = 'none';
+      }
+      
+      return isValid;
+    }
+    
+    function resetForm() {
+      const form = document.getElementById('appointmentForm');
+      const successMessage = document.getElementById('successMessage');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      form.style.display = 'block';
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      form.reset();
+      
+      // Set minimum date to today again
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').setAttribute('min', today);
+    }
+    
+    function hideError() {
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+    
+    function showError(message) {
+      logDebug('Error: ' + message);
+      document.getElementById('errorMessage').style.display = 'block';
+      const errorMessageElement = document.querySelector('#errorMessage p');
+      if (errorMessageElement) {
+        errorMessageElement.textContent = message;
+      }
+    }
+    
+    function toggleDebug() {
+      const debugPanel = document.getElementById('debugPanel');
+      debugMode = !debugMode;
+      debugPanel.style.display = debugMode ? 'block' : 'none';
+    }
+    
+    function logDebug(message) {
+      if (!debugMode) return;
+      
+      const debugOutput = document.getElementById('debugOutput');
+      const timestamp = new Date().toLocaleTimeString();
+      debugOutput.innerHTML = `[${timestamp}] ${message}<br>` + debugOutput.innerHTML;
+    }
+    
+    function testConnection() {
+      logDebug('Testing connection to: ' + scriptURL);
+      
+      // Create a test iframe to check connection
+      const iframe = document.createElement('iframe');
+      iframe.src = scriptURL;
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      
+      iframe.onload = function() {
+        logDebug('Connection test: Iframe loaded successfully');
+        document.body.removeChild(iframe);
+      };
+      
+      iframe.onerror = function() {
+        logDebug('Connection test: Iframe failed to load');
+        document.body.removeChild(iframe);
+      };
+      
+      // Also test with a simple GET request
+      fetch(scriptURL, {
+        method: 'GET',
+        redirect: 'follow'
+      })
+      .then(response => {
+        logDebug('Connection test: GET response status - ' + response.status);
+        return response.text();
+      })
+      .then(data => {
+        logDebug('Connection test: GET response data - ' + data.substring(0, 100) + '...');
+      })
+      .catch(error => {
+        logDebug('Connection test: GET error - ' + error.message);
+      });
+    }
+  </script>
+</body>
+</html>
